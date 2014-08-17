@@ -1,7 +1,6 @@
-////   How do I make the corner Radius only on the sides I want?
-/////  Why did all my bricks black out when I stacked them
-////    Would "sendSubviewToBack" work
-
+////   add header with Lives
+/////
+////
 //
 //  LABViewController.m
 //  Labyrinth
@@ -41,6 +40,8 @@
     UIView * wall4;
     UIView * wall5;
     
+    UIButton * startButton;
+    
     CGPoint * origin;
     
     float xRotation;
@@ -54,6 +55,8 @@
         
         self.view.frame = CGRectMake (0,0,self.view.frame.size.height, self.view.frame.size.width);
         self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
+        [self showStartButton];
+        
         
         animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
         
@@ -75,52 +78,14 @@
         wallBehavior.density = 1000000000000000;
         [animator addBehavior:wallBehavior];
         
-        blackHoleBackground = [[UIView alloc] initWithFrame:CGRectMake(200, 220, 40, 40)];
-        blackHoleBackground.backgroundColor = [UIColor blackColor];
-        blackHoleBackground.layer.cornerRadius = 20;
-        [self.view addSubview:blackHoleBackground];
         
-        blackHole = [[UIView alloc] initWithFrame:CGRectMake(200, 220, 18, 18)];
-        blackHole.backgroundColor = [UIColor blackColor];
-        blackHole.center =blackHoleBackground.center;
-        
-        [self.view addSubview:blackHole];
-        [collisionBehavior addItem:blackHole];
 
         blackHoleBehavior = [[UIDynamicItemBehavior alloc] init];
         [animator addBehavior:blackHoleBehavior];
         blackHoleBehavior.density = 100000000000000;
     
-        [blackHoleBehavior addItem:blackHole];
+       
         
-        ball = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        ball.center = self.view.center;
-        ball.backgroundColor = [UIColor colorWithRed:0.988f green:0.059f blue:0.259f alpha:1.0f];
-        ball.layer.cornerRadius = 20;
-        
-        [self.view addSubview:ball];
-        [ballBehavior addItem:ball];
-        [gravityBehavior addItem:ball];
-        [collisionBehavior addItem:ball];
-        
-        wall = [[UIView alloc] initWithFrame:CGRectMake(70, -20, 60, 240)];
-        wall.backgroundColor = [UIColor colorWithRed:0.718f green:0.647f blue:0.498f alpha:1.0f];
-        wall.layer.cornerRadius = 10;
-        [self.view addSubview:wall];
-        NSLog(@"%@", wallBehavior);
-        [wallBehavior addItem:wall];
-        [collisionBehavior addItem:wall];
-        
-        wall4 = [[UIView alloc] initWithFrame:CGRectMake(315, 0, 60, 240)];
-        wall4.backgroundColor = [UIColor colorWithRed:0.718f green:0.647f blue:0.498f alpha:1.0f];
-        wall4.layer.cornerRadius = 10;
-        [self.view addSubview:wall4];
-
-        wall5 = [[UIView alloc] initWithFrame:CGRectMake(450, 80, 120, 60)];
-        wall5.backgroundColor = [UIColor colorWithRed:0.718f green:0.647f blue:0.498f alpha:1.0f];
-        wall5.layer.cornerRadius = 10;
-        [self.view addSubview:wall5];
-
 
     }
     return self;
@@ -214,8 +179,85 @@
         }
 }
   
+-(void) showStartButton
+{
+    
+    
+    startButton = [[UIButton alloc] initWithFrame:CGRectMake((SCREEN_WIDTH-100)/2, (SCREEN_HEIGHT-100)/2, 100, 100)];
+    [startButton setTitle:@"START" forState:UIControlStateNormal];
+    startButton.layer.cornerRadius = 50;
+    [startButton addTarget:self action:@selector(startGame) forControlEvents:UIControlEventTouchUpInside];
+    startButton.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:startButton];
+}
 
+-(void) startGame
+{
+    [startButton removeFromSuperview];
+    
+    [self createWalls];
+    [self createBlackHole];
+    [self createBall];
+    
+//    [self resetBricks];
+//    [self createBall];
+//    headerView.lives = 3;
+//    headerView.score = 0;
+    
+}
+-(void) createWalls
+{
+    wall = [[UIView alloc] initWithFrame:CGRectMake(70, -20, 60, 240)];
+    wall.backgroundColor = [UIColor colorWithRed:0.718f green:0.647f blue:0.498f alpha:1.0f];
+    wall.layer.cornerRadius = 10;
+    [self.view addSubview:wall];
+    NSLog(@"%@", wallBehavior);
+    [wallBehavior addItem:wall];
+    [collisionBehavior addItem:wall];
+    
+    
+    wall4 = [[UIView alloc] initWithFrame:CGRectMake(315, 0, 60, 240)];
+    wall4.backgroundColor = [UIColor colorWithRed:0.718f green:0.647f blue:0.498f alpha:1.0f];
+    wall4.layer.cornerRadius = 10;
+    [self.view addSubview:wall4];
+    [wallBehavior addItem:wall4];
+    [collisionBehavior addItem:wall4];
+    
+    wall5 = [[UIView alloc] initWithFrame:CGRectMake(450, 80, 120, 60)];
+    wall5.backgroundColor = [UIColor colorWithRed:0.718f green:0.647f blue:0.498f alpha:1.0f];
+    wall5.layer.cornerRadius = 10;
+    [self.view addSubview:wall5];
+    [wallBehavior addItem:wall5];
+    [collisionBehavior addItem:wall5];
+}
+-(void) createBlackHole
+{
+    blackHoleBackground = [[UIView alloc] initWithFrame:CGRectMake(200, 220, 40, 40)];
+    blackHoleBackground.backgroundColor = [UIColor blackColor];
+    blackHoleBackground.layer.cornerRadius = 20;
+    [self.view addSubview:blackHoleBackground];
+    
+    blackHole = [[UIView alloc] initWithFrame:CGRectMake(200, 220, 18, 18)];
+    blackHole.backgroundColor = [UIColor blackColor];
+    blackHole.center =blackHoleBackground.center;
+    [self.view addSubview:blackHole];
 
+    [blackHoleBehavior addItem:blackHole];
+    [collisionBehavior addItem:blackHole];
+}
+-(void) createBall
+{
+    
+    ball = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    ball.center = self.view.center;
+    ball.backgroundColor = [UIColor colorWithRed:0.988f green:0.059f blue:0.259f alpha:1.0f];
+    ball.layer.cornerRadius = 20;
+    
+    [self.view addSubview:ball];
+    [ballBehavior addItem:ball];
+    [gravityBehavior addItem:ball];
+    [collisionBehavior addItem:ball];
+}
 
 -(BOOL)prefersStatusBarHidden {return YES;}
 
