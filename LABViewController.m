@@ -34,8 +34,10 @@
     UISnapBehavior *snapBehavior;
     
     UIView * ball;
-    UIView * blackHole;
-    UIView * blackHoleBackground;
+    
+    NSMutableArray* blackHoles;
+    
+    //    UIView * blackHoleBackground;
     UIView * wall;
     UIView * wall4;
     UIView * wall5;
@@ -53,6 +55,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
+        blackHoles = [@[]mutableCopy];
         self.view.frame = CGRectMake (0,0,self.view.frame.size.height, self.view.frame.size.width);
         self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
         [self showStartButton];
@@ -79,14 +82,14 @@
         [animator addBehavior:wallBehavior];
         
         
-
+        
         blackHoleBehavior = [[UIDynamicItemBehavior alloc] init];
         [animator addBehavior:blackHoleBehavior];
         blackHoleBehavior.density = 100000000000000;
-    
-       
         
-
+        
+        
+        
     }
     return self;
 }
@@ -100,12 +103,12 @@
 {
     [super viewDidLoad];
     
-        motionManager = [[CMMotionManager alloc] init];
-        [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
-            
+    motionManager = [[CMMotionManager alloc] init];
+    [motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
+        
         xRotation -=motion.rotationRate.x /30.0;
         yRotation +=motion.rotationRate.y /30.0;
-            
+        
         [self updateGravity];
     }];
 }
@@ -127,58 +130,66 @@
 {
     NSLog(@"collision");
     //BOOL inBlackHole = [self isPoint:self.ball.center withInRadius:self.blackHole.frame.size.width / 2.0 ofPoint:self.blackHole.center]
-    if ([item1 isEqual:blackHole] || [item2 isEqual:blackHole])
-    {
-        NSLog(@"black hole collision!!!");
-        [collisionBehavior removeItem:blackHole];
-        
-        if ([item1 isEqual:ball] || [item2 isEqual:ball])
-        {
-            NSLog(@"ball just hit the blackhole!");
-            [collisionBehavior removeItem:ball];
-            [ballBehavior removeItem:ball];
-            [gravityBehavior removeItem:ball];
     
-            [UIView animateWithDuration:.8 animations:^{
-                ball.center = blackHoleBackground.center;
-            } completion:^(BOOL finished){
-                [ball removeFromSuperview];
+    
+    
+    for (UIView * blackHole in [blackHoles copy])
+    {
+        if ([item1 isEqual:blackHole] || [item2 isEqual:blackHole])
+        {
+            NSLog(@"black hole collision!!!");
+           [collisionBehavior removeItem:blackHole];
+            
+            if ([item1 isEqual:ball] || [item2 isEqual:ball])
+            {
+                NSLog(@"ball just hit the blackhole!");
+                [collisionBehavior removeItem:ball];
+                [ballBehavior removeItem:ball];
+                [gravityBehavior removeItem:ball];
                 
-//                snapBehavior = [[UISnapBehavior alloc] initWithItem:@[wall,wall4] snapToPoint:blackHole.center];
-//                [animator addBehavior:snapBehavior];
-                
-                snapBehavior = [[UISnapBehavior alloc] initWithItem:wall snapToPoint:blackHole.center];
-                [animator addBehavior:snapBehavior];
-                
-                snapBehavior = [[UISnapBehavior alloc] initWithItem:wall4 snapToPoint:blackHole.center];
-                [animator addBehavior:snapBehavior];
-                
-                snapBehavior = [[UISnapBehavior alloc] initWithItem:wall5 snapToPoint:blackHole.center];
-                [animator addBehavior:snapBehavior];
-                
-                [UIView animateWithDuration:1.2 animations:^(void) {
-                    blackHoleBackground.transform = CGAffineTransformScale(blackHoleBackground.transform, 100.0, 100.0);
-                 
-                
-                    //                wall.transform = CGAffineTransformScale(wall.transform, 0.1, 0.1);
-                   // wall.alpha = 0.0;
-                } completion:^(BOOL finished) {
-                }];
-                [UIView animateWithDuration:.5 animations:^(void) {
-                                        wall.alpha = 0.0;
-                                        wall4.alpha = 0.0;
-                                        wall5.alpha = 0.0;
+                [UIView animateWithDuration:.8 animations:^{
+                    ball.center = blackHole.center;
                     
-                } completion:^(BOOL finished) {
-                }];
+                    blackHole.backgroundColor = [UIColor magentaColor];
+                } completion:^(BOOL finished){
+                    [ball removeFromSuperview];
+                    snapBehavior = [[UISnapBehavior alloc] initWithItem:wall snapToPoint:blackHole.center];
+                    [animator addBehavior:snapBehavior];
+                    
+                    snapBehavior = [[UISnapBehavior alloc] initWithItem:wall4 snapToPoint:blackHole.center];
+                    [animator addBehavior:snapBehavior];
+                    
+                    snapBehavior = [[UISnapBehavior alloc] initWithItem:wall5 snapToPoint:blackHole.center];
+                    [animator addBehavior:snapBehavior];
 
-            }];
+                  
+                    [UIView animateWithDuration:1.2 animations:^(void) {
+                      //  blackHole.transform = CGAffineTransformScale(blackHole.transform, 500.0, 500.0);
+                       // blackHole.backgroundColor = [UIColor magentaColor];
+                    
+                        
+                    }
+
+                        //                wall.transform = CGAffineTransformScale(wall.transform, 0.1, 0.1);
+                        // wall.alpha = 0.0;
+             completion:^(BOOL finished) {
+                    }];
+                    [UIView animateWithDuration:.5 animations:^(void) {
+                        wall.alpha = 0.0;
+                        wall4.alpha = 0.0;
+                        wall5.alpha = 0.0;
+                        
+                    } completion:^(BOOL finished) {blackHole.transform = CGAffineTransformScale(blackHole.transform, 500.0, 500.0);
+                    }];
+                    
+                }];
+                break;
+            }
             
         }
-
-        }
+    }
 }
-  
+
 -(void) showStartButton
 {
     
@@ -199,10 +210,10 @@
     [self createBlackHole];
     [self createBall];
     
-//    [self resetBricks];
-//    [self createBall];
-//    headerView.lives = 3;
-//    headerView.score = 0;
+    //    [self resetBricks];
+    //    [self createBall];
+    //    headerView.lives = 3;
+    //    headerView.score = 0;
     
 }
 -(void) createWalls
@@ -232,18 +243,35 @@
 }
 -(void) createBlackHole
 {
-    blackHoleBackground = [[UIView alloc] initWithFrame:CGRectMake(200, 220, 40, 40)];
-    blackHoleBackground.backgroundColor = [UIColor blackColor];
-    blackHoleBackground.layer.cornerRadius = 20;
-    [self.view addSubview:blackHoleBackground];
     
-    blackHole = [[UIView alloc] initWithFrame:CGRectMake(200, 220, 18, 18)];
-    blackHole.backgroundColor = [UIColor blackColor];
-    blackHole.center =blackHoleBackground.center;
-    [self.view addSubview:blackHole];
 
-    [blackHoleBehavior addItem:blackHole];
-    [collisionBehavior addItem:blackHole];
+    
+    UIView * blackHole1 = [[UIView alloc] initWithFrame:CGRectMake(200, 220, 40, 40)];
+    blackHole1.backgroundColor = [UIColor blackColor];
+    blackHole1.layer.cornerRadius = 20;
+    [self.view addSubview:blackHole1];
+    [blackHoles addObject:blackHole1];
+    
+    UIView* blackHole2 = [[UIView alloc] initWithFrame:CGRectMake(200, 170, 40, 40)];
+    blackHole2.backgroundColor = [UIColor blackColor];
+    blackHole2.layer.cornerRadius = 20;
+    [self.view addSubview:blackHole2];
+    [blackHoles addObject:blackHole2];
+    
+    UIView* blackHole3 = [[UIView alloc] initWithFrame:CGRectMake(200, 120, 40, 40)];
+    blackHole3.backgroundColor = [UIColor blackColor];
+    blackHole3.layer.cornerRadius = 20;
+    [self.view addSubview:blackHole3];
+    [blackHoles addObject:blackHole3];
+    
+    
+    [blackHoleBehavior addItem:blackHole1];
+    [blackHoleBehavior addItem:blackHole2];
+    [blackHoleBehavior addItem:blackHole3];
+    
+    [collisionBehavior addItem:blackHole1];
+    [collisionBehavior addItem:blackHole2];
+    [collisionBehavior addItem:blackHole3];
 }
 -(void) createBall
 {
