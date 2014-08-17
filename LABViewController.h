@@ -9,5 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface LABViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIView *inBlackHole;
 @end

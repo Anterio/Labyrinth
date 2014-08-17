@@ -35,7 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8EAB44A0199E5C0B00BAF04E /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		8EAB44A0199E5C0B00BAF04E /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../background.png; sourceTree = "<group>"; };
 		8EAC7BBD199D39D10046A04C /* Labyrinth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Labyrinth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EAC7BC0199D39D10046A04C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8EAC7BC2199D39D10046A04C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -52,10 +52,10 @@
 		8EAC7BE1199D39D10046A04C /* LabyrinthTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LabyrinthTests-Info.plist"; sourceTree = "<group>"; };
 		8EAC7BE3199D39D10046A04C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8EAC7BE5199D39D10046A04C /* LabyrinthTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LabyrinthTests.m; sourceTree = "<group>"; };
-		8EAC7BEF199D3A060046A04C /* LABViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LABViewController.h; sourceTree = "<group>"; };
-		8EAC7BF0199D3A060046A04C /* LABViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LABViewController.m; sourceTree = "<group>"; };
-		8EAC7BF2199D3CD20046A04C /* LABGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LABGraphView.h; sourceTree = "<group>"; };
-		8EAC7BF3199D3CD20046A04C /* LABGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LABGraphView.m; sourceTree = "<group>"; };
+		8EAC7BEF199D3A060046A04C /* LABViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LABViewController.h; path = ../LABViewController.h; sourceTree = "<group>"; };
+		8EAC7BF0199D3A060046A04C /* LABViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LABViewController.m; path = ../LABViewController.m; sourceTree = "<group>"; };
+		8EAC7BF2199D3CD20046A04C /* LABGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LABGraphView.h; path = ../LABGraphView.h; sourceTree = "<group>"; };
+		8EAC7BF3199D3CD20046A04C /* LABGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LABGraphView.m; path = ../LABGraphView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,11 +85,6 @@
 		8EAC7BB4199D39D10046A04C = {
 			isa = PBXGroup;
 			children = (
-				8EAB44A0199E5C0B00BAF04E /* background.png */,
-				8EAC7BF2199D3CD20046A04C /* LABGraphView.h */,
-				8EAC7BF3199D3CD20046A04C /* LABGraphView.m */,
-				8EAC7BEF199D3A060046A04C /* LABViewController.h */,
-				8EAC7BF0199D3A060046A04C /* LABViewController.m */,
 				8EAC7BC6199D39D10046A04C /* Labyrinth */,
 				8EAC7BDF199D39D10046A04C /* LabyrinthTests */,
 				8EAC7BBF199D39D10046A04C /* Frameworks */,
@@ -120,8 +115,13 @@
 		8EAC7BC6199D39D10046A04C /* Labyrinth */ = {
 			isa = PBXGroup;
 			children = (
+				8EAC7BF2199D3CD20046A04C /* LABGraphView.h */,
+				8EAC7BF3199D3CD20046A04C /* LABGraphView.m */,
+				8EAC7BEF199D3A060046A04C /* LABViewController.h */,
+				8EAC7BF0199D3A060046A04C /* LABViewController.m */,
 				8EAC7BCF199D39D10046A04C /* LABAppDelegate.h */,
 				8EAC7BD0199D39D10046A04C /* LABAppDelegate.m */,
+				8EAB44A0199E5C0B00BAF04E /* background.png */,
 				8EAC7BD2199D39D10046A04C /* Images.xcassets */,
 				8EAC7BC7199D39D10046A04C /* Supporting Files */,
 			);
